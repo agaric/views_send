@@ -345,7 +345,7 @@ function views_send_confirm_form(&$form, &$form_state, $view) {
     '#type' => 'item',
     '#title' => t('From'),
     '#markup' => '<div class="views-send-preview-value">' .
-      (empty($from_name) ? $from_mail : $from_name . Html::escape(' <' . $from_mail . '>')) .
+        Html::escape(_views_send_format_address($from_mail, $from_name, FALSE)) .
       '</div>',
   );
 
@@ -357,7 +357,7 @@ function views_send_confirm_form(&$form, &$form_state, $view) {
     $to_mail_rendered = $view->style_plugin->getField($row_id, $to_mail_field);
     $to_mail_arr = explode(',', strip_tags($to_mail_rendered));
     foreach ($to_mail_arr as $to_mail) {
-      $recipients[] = Html::escape(empty($to_name) ? $to_mail : trim($to_name) . ' <' .  $to_mail . '>');
+      $recipients[] = Html::escape(_views_send_format_address($to_mail, $to_name, FALSE));
     }
   }
 
@@ -369,7 +369,7 @@ function views_send_confirm_form(&$form, &$form_state, $view) {
   $form['subject'] = array(
     '#type' => 'item',
     '#title' => t('Subject'),
-    '#markup' => '<div class="views-send-preview-value">' . $configuration['views_send_subject'] . '</div>',
+    '#markup' => '<div class="views-send-preview-value">' . Html::escape($configuration['views_send_subject']) . '</div>',
   );
   $form['message'] = array(
     '#type' => 'item',
@@ -379,7 +379,7 @@ function views_send_confirm_form(&$form, &$form_state, $view) {
 
   $headers = array();
   foreach (_views_send_headers($configuration['views_send_receipt'], $configuration['views_send_priority'], $configuration['views_send_from_mail'], $configuration['views_send_headers']) as $key => $value) {
-    $headers[] = $key . ': ' . $value;
+    $headers[] = Html::escape($key . ': ' . $value);
   }
 
   $form['headers'] = array(
