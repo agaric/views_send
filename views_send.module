@@ -389,7 +389,7 @@ function views_send_confirm_form(&$form, &$form_state, $view) {
   );
   if (VIEWS_SEND_MIMEMAIL && !empty($configuration['views_send_attachments']) && Drupal::currentUser()->hasPermission('attachments with views_send')) {
     foreach ($configuration['views_send_attachments'] as $attachment) {
-      $attachments[] = $attachment['filename'];
+      $attachments[] = Html::escape($attachment['filename']);
     }
     $form['attachments'] = array(
       '#type' => 'item',
