@@ -331,8 +331,8 @@ function views_send_confirm_form(&$form, &$form_state, $view) {
   $selection = $form_state->get('selection');
 
   if (!VIEWS_SEND_MIMEMAIL && ($configuration['views_send_message']['format'] != 'plain_text')) {
-    drupal_set_message(t("Only plain text is supported in the message. Any HTML will be converted to text. If you want to format the message with HTML, you'll have to install and enable the !mimemail module.",
-      array('!mimemail' => '<a href="http://drupal.org/project/mimemail">Mime Mail</a>'))
+    drupal_set_message(t("Only plain text is supported in the message. Any HTML will be converted to text. If you want to format the message with HTML, you'll have to install and enable the <a href=':url'>Mime Mail</a> module.",
+      array(':url' => 'http://drupal.org/project/mimemail'))
     );
   }
 
@@ -488,7 +488,7 @@ function views_send_queue_mail($params, $selected_rows, $view) {
     $subject = $token_service->replace($subject, $data);
     $body = $token_service->replace($body, $data);
 
-    if (!VIEWS_SEND_MIMEMAIL || (variable_get('mimemail_format', 'plain_text') == 'plain_text')) {
+    if (!VIEWS_SEND_MIMEMAIL || (\Drupal::config('mimemail.settings')->get('format') == 'plain_text')) {
       $body = MailFormatHelper::htmlToText($body);
     }
 

@@ -103,7 +103,7 @@ class ViewsSend extends BulkForm {
         $form_state->set('configuration', $form_state_values);
 
         // If a file was uploaded, process it.
-        if (VIEWS_SEND_MIMEMAIL && Drupal::currentUser()->hasPermission('attachments with views_send') && 
+        if (VIEWS_SEND_MIMEMAIL && \Drupal::currentUser()->hasPermission('attachments with views_send') &&
             isset($_FILES['files']) && is_uploaded_file($_FILES['files']['tmp_name']['views_send_attachments'])) {
           // attempt to save the uploaded file
           $dir = file_default_scheme() . '://views_send_attachments';
