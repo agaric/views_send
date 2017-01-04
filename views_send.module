@@ -9,6 +9,7 @@
  * @ingroup views_send
  */
 
+use \Drupal\Component\Utility\Unicode;
 use \Drupal\Component\Utility\UrlHelper;
 use \Drupal\Core\Url;
 use \Drupal\Core\Mail\MailFormatHelper;
@@ -709,21 +710,9 @@ function _views_send_format_address($mail, $name, $encode = TRUE) {
     return $mail;
   }
   else {
-    $name = ($encode ? _views_send_mime_header_encode($name) : $name);
+    $name = ($encode ? Unicode::mimeHeaderEncode($name) : $name);
     return sprintf('"%s" <%s>', $name, $mail);
   }
-}
-
-/**
- * Returns a mime-encoded string for strings that contain UTF-8.
- *
- * Simplified and correct version of mime_header_decode.
- */
-function _views_send_mime_header_encode($string) {
-  if (preg_match('/[^\x20-\x7E]/', $string)) {
-    $string = '=?UTF-8?B?' . base64_encode($string) . '?=';
-  }
-  return $string;
 }
 
 /**
@@ -795,7 +784,7 @@ function _views_send_prepare_mail(&$message, $plain_format=TRUE, $attachments=ar
   // Add additional Mime Mail post processing.
   if (VIEWS_SEND_MIMEMAIL) {
     // We want to spool the Subject decoded.
-    $mail['subject'] = mime_header_decode($mail['subject']);
+    $mail['subject'] = Unicode::mimeHeaderDecode($mail['subject']);
   }
 
   // Updating message with data from generated mail
@@ -823,7 +812,7 @@ function views_send_deliver($message) {
   $mail = array(
     'to' => $message->to_mail,
     'from' => $message->from_mail,
-    'subject' => _views_send_mime_header_encode($message->subject),
+    'subject' => Unicode::mimeHeaderEncode($message->subject),
     'body' => $message->body,
     'headers' => $headers,
   );
