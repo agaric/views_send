@@ -769,9 +769,6 @@ function _views_send_prepare_mail(&$message, $plain_format=TRUE, $attachments=ar
   $params['headers'] = $headers;
 
   if (VIEWS_SEND_MIMEMAIL) {
-    mailsystem_set(array(
-      "views_send_$key" => 'MimeMailSystem'
-    ));
     $params['attachments'] = $attachments;
     if ($plain_format) {
       $params['plain'] = TRUE;
@@ -816,12 +813,6 @@ function views_send_deliver($message) {
     'body' => $message->body,
     'headers' => $headers,
   );
-
-  if (VIEWS_SEND_MIMEMAIL) {
-    mailsystem_set(array(
-      "views_send_$key" => 'MimeMailSystem'
-    ));
-  }
 
   $system =  $mail_backend = \Drupal::service('plugin.manager.mail')->getInstance(array('module' => 'views_send', 'key' => $key));
   return $system->mail($mail);
