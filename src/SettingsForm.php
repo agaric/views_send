@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\views_send\SettingsForm.
- */
-
 namespace Drupal\views_send;
 
 use Drupal\Core\Form\ConfigFormBase;

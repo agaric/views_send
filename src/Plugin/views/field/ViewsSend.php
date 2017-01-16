@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\views_send\Plugin\views\field\ViewsSend.
- */
-
 namespace Drupal\views_send\Plugin\views\field;
 
 use Drupal\Component\Utility\UrlHelper;
