@@ -39,29 +39,29 @@ class SettingsForm extends ConfigFormBase {
 
     $throttle_values = array(1, 10, 20, 30, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000);
     $throttle = array_combine($throttle_values, $throttle_values);
-    array_unshift($throttle, t('Unlimited'));
+    array_unshift($throttle, $this->t('Unlimited'));
 
     $form['throttle'] = array(
       '#type' => 'select',
-      '#title' => t('Cron throttle'),
+      '#title' => $this->t('Cron throttle'),
       '#options' => $throttle,
       '#default_value' => $config->get('throttle'),
-      '#description' => t('Sets the numbers of messages sent per cron run. Failure to send will also be counted. Cron execution must not exceed the PHP maximum execution time of %max seconds. You find the time spend to send e-mails in the <a href="@dblog-url">recent log messages</a>.', array('%max' => ini_get('max_execution_time'), '@dblog-url' => $this->url('dblog.overview'))),
+      '#description' => $this->t('Sets the numbers of messages sent per cron run. Failure to send will also be counted. Cron execution must not exceed the PHP maximum execution time of %max seconds. You find the time spend to send e-mails in the <a href="@dblog-url">recent log messages</a>.', array('%max' => ini_get('max_execution_time'), '@dblog-url' => $this->url('dblog.overview'))),
     );
 
     $form['spool_expire'] = array(
       '#type' => 'select',
-      '#title' => t('Mail spool expiration'),
-      '#options' => array(0 => t('Immediate'), 1 => t('1 day'), 7 => t('1 week'), 14 => t('2 weeks')),
+      '#title' => $this->t('Mail spool expiration'),
+      '#options' => array(0 => $this->t('Immediate'), 1 => $this->t('1 day'), 7 => $this->t('1 week'), 14 => $this->t('2 weeks')),
       '#default_value' => $config->get('spool_expire'),
-      '#description' => t('E-mails are spooled. How long must messages be retained in the spool after successfull sending.'),
+      '#description' => $this->t('E-mails are spooled. How long must messages be retained in the spool after successfull sending.'),
     );
 
     $form['debug'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Log e-mails'),
+      '#title' => $this->t('Log e-mails'),
       '#default_value' => $config->get('debug'),
-      '#description' => t('When checked all outgoing mesages are logged in the system log. A logged e-mail does not guarantee that it is send or will be delivered. It only indicates that a message is send to the PHP mail() function. No status information is available of delivery by the PHP mail() function.'),
+      '#description' => $this->t('When checked all outgoing mesages are logged in the system log. A logged e-mail does not guarantee that it is send or will be delivered. It only indicates that a message is send to the PHP mail() function. No status information is available of delivery by the PHP mail() function.'),
     );
 
     return parent::buildForm($form, $form_state);

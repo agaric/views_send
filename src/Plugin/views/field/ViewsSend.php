@@ -33,7 +33,7 @@ class ViewsSend extends BulkForm {
 
     $step = $form_state->get('step');
     if ($step == 'views_form_views_form') {
-      $form['actions']['submit']['#value'] = t('Send e-mail');
+      $form['actions']['submit']['#value'] = $this->t('Send e-mail');
       $form['#prefix'] = '<div class="views-send-selection-form">';
       $form['#suffix'] = '</div>';
 
