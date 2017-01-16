@@ -263,16 +263,16 @@ function views_send_config_form_validate($form, &$form_state) {
   $view = $build_info['args'][0];
 
   if (!$format = FilterFormat::load($values['views_send_message']['format'])) {
-    $form_state->setErrorByName('views_send_message', $this->t('Non-existsing format selected'));
+    $form_state->setErrorByName('views_send_message', t('Non-existsing format selected'));
   }
   elseif (!$format->access('use', $account)) {
-    $form_state->setErrorByName('views_send_message', $this->t('Illegale format selected'));
+    $form_state->setErrorByName('views_send_message', t('Illegale format selected'));
   }
 
   // Check if sender's e-mail is a valid one.
   if (!valid_email_address(trim($values['views_send_from_mail']))) {
     $form_state->setErrorByName('views_send_from_mail',
-      $this->t('The sender\'s e-mail is not a valid e-mail address: %mail',
+      t('The sender\'s e-mail is not a valid e-mail address: %mail',
         array('%mail' => $values['views_send_from_mail'])
       )
     );
