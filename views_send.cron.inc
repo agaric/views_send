@@ -8,6 +8,7 @@
  */
 
 use Drupal\Component\Utility\Timer;
+use Drupal\views_send\Event\MailSentEvent;
  
 /**
  * Process the spool queue at cron run.
@@ -36,7 +37,9 @@ function views_send_send_from_spool() {
         \Drupal::logger('views_send')->notice(t('Message sent to %mail.', array('%mail' => $message->to_mail)));
       }
       if (\Drupal::moduleHandler()->moduleExists('rules')) {
-        rules_invoke_event('views_send_email_sent', $message);
+        $event = new MailSentEvent($message);
+        $event_dispatcher = \Drupal::service('event_dispatcher');
+        $event_dispatcher->dispatch(MailSentEvent::EVENT_NAME, $event);
       }
       $ok++;
     }
