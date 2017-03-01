@@ -18,6 +18,8 @@ class ViewsSend extends BulkForm {
    * Overrides \Drupal\system\Plugin\views\field\BulkForm::viewsForm(). 
    */
   function viewsForm(&$form, FormStateInterface $form_state) {
+    parent::viewsForm($form, $form_state);
+
     // The view is empty, abort.
     if (empty($this->view->result)) {
       return;
@@ -26,36 +28,14 @@ class ViewsSend extends BulkForm {
     // Add the custom CSS for all steps of the form.
     $form['#attached']['library'][] = 'views_send/views_send.form';
 
+    // Remove standard header which is used to select action
+    unset($form['header']);
+
     $step = $form_state->get('step');
     if ($step == 'views_form_views_form') {
       $form['actions']['submit']['#value'] = $this->t('Send e-mail');
       $form['#prefix'] = '<div class="views-send-selection-form">';
       $form['#suffix'] = '</div>';
-
-      // Adds the "select all" functionality for non-table style plugins.
-      /* FIXME: Read https://www.drupal.org/node/2195739
-      if (!($this->view->style_plugin instanceof Drupal\views\Plugin\views\style\Table)) {
-        $form['select_all_markup'] = array(
-          '#type' => 'markup',
-          '#markup' => _theme('views_send_select_all'),
-        );
-      }
-      */
-
-      // Add the tableselect javascript.
-      $form['#attached']['library'][] = 'core/drupal.tableselect';
-
-      // Render checkboxes for all rows.
-      $form[$this->options['id']] = array(
-        '#tree' => TRUE,
-      );
-      foreach ($this->view->result as $row_index => $row) {
-        $form[$this->options['id']][$row_index] = array(
-          '#type' => 'checkbox',
-          '#default_value' => FALSE,
-          '#attributes' => array('class' => array('views-send-select')),
-        );
-      }
     }
     else {
       // Hide the normal output from the view
