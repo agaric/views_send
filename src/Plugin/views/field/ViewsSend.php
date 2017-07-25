@@ -178,4 +178,10 @@ class ViewsSend extends FieldPluginBase {
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function query() {
+  }
+
 }
