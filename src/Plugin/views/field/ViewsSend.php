@@ -89,7 +89,19 @@ class ViewsSend extends FieldPluginBase {
         $field_name = $this->options['id'];
         $selection = array_filter($form_state->getValue($field_name));
         $form_state->set('selection', array_keys($selection));
+        // It seems that the search_api data is lost in multi-step forms, so we
+        // will create a copy of the data outside of the view in order of
+        // preserve it.
+        // @todo make sure that the search_api data is lost in the multi-steps
+        // forms and create an issue in the search_api module.
+        $view_data = [];
+        foreach ($this->view->result as $row_id => $resultRow) {
+          foreach ($this->view->field as $field_name => $field) {
+            $view_data[$row_id][$field_name] = $this->view->style_plugin->getFieldValue($row_id, $field_name);
+          }
+        }
 
+        $form_state->set('view_data', $view_data);
         $form_state->set('step', 'views_send_config_form');
         $form_state->setRebuild(TRUE);
         break;

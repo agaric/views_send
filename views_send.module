@@ -66,6 +66,9 @@ function _views_send_get_field($view) {
 
 /**
  * Implements the form for the "configure" step.
+ *
+ * @param \Drupal\views\ViewExecutable $view
+ *   Viewexecutable object.
  */
 function views_send_config_form(&$form, &$form_state, $view) {
   $display = $view->storage->id() . ':' . $view->current_display;
@@ -262,6 +265,7 @@ function views_send_config_form_validate($form, &$form_state) {
   $account = Drupal::currentUser();
   $values = $form_state->getValues();
   $build_info = $form_state->getBuildInfo();
+  /** @var \Drupal\views\ViewExecutable $view */
   $view = $build_info['args'][0];
 
   if (!$format = FilterFormat::load($values['views_send_message']['format'])) {
@@ -286,8 +290,9 @@ function views_send_config_form_validate($form, &$form_state) {
 
     $to_mail_field = $values['views_send_tokens'][$values['views_send_to_mail']];
     $selection = $form_state->get('selection');
+    $view_data = $form_state->get('view_data');
     foreach ($selection as $row_id) {
-      $to_mail_rendered = $view->style_plugin->getField($row_id, $to_mail_field);
+      $to_mail_rendered = $view_data[$row_id][$to_mail_field];
       $to_mail_arr = explode(',', strip_tags($to_mail_rendered));
       foreach ($to_mail_arr as $to_mail) {
         $to_mail = trim($to_mail);
@@ -355,9 +360,10 @@ function views_send_confirm_form(&$form, &$form_state, $view) {
   $recipients = array();
   $to_name_field = $configuration['views_send_tokens'][$configuration['views_send_to_name']];
   $to_mail_field = $configuration['views_send_tokens'][$configuration['views_send_to_mail']];
+  $view_data = $form_state->get('view_data');
   foreach ($selection as $row_id) {
-    $to_name = strip_tags($view->style_plugin->getField($row_id, $to_name_field));
-    $to_mail_rendered = $view->style_plugin->getField($row_id, $to_mail_field);
+    $to_name = strip_tags($view_data[$row_id][$to_name_field]);
+    $to_mail_rendered = $view_data[$row_id][$to_mail_field];
     $to_mail_arr = explode(',', strip_tags($to_mail_rendered));
     foreach ($to_mail_arr as $to_mail) {
       $recipients[] = Html::escape(_views_send_format_address($to_mail, $to_name, FALSE));
@@ -582,7 +588,7 @@ function views_send_menu() {
     'type' => MENU_NORMAL_ITEM,
     'title' => 'Views Send',
     'description' => 'Configure Views Send general options.',
-    'route_name' => 'views_send.configure', 
+    'route_name' => 'views_send.configure',
   );
   return $items;
 }
