@@ -58,7 +58,7 @@ class ViewsSend extends FieldPluginBase {
           '#title' => $this->t('Update this item'),
           '#title_display' => 'invisible',
           '#default_value' => !empty($form_state->getValue($this->options['id'])[$row_index]) ? 1 : NULL,
-          '#return_value' => $row_index,
+          '#return_value' => 1,
         ];
       }
 
