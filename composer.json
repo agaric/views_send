@@ -1,0 +1,12 @@
+{
+  "name": "drupal/views_send",
+  "type": "drupal-module",
+  "description": "Views Send module",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev",
+  "support": { },
+  "require": { }
+}
+
+
