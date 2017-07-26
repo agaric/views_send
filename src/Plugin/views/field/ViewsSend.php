@@ -132,7 +132,7 @@ class ViewsSend extends FieldPluginBase {
           // Attempt to save the uploaded file.
           $dir = file_default_scheme() . '://views_send_attachments';
           file_prepare_directory($dir, FILE_CREATE_DIRECTORY);
-          $file = file_save_upload('views_send_attachments', $form_state, array(), $dir);
+          $file = file_save_upload('views_send_attachments', $form_state, [], $dir);
           // Set error if file was not uploaded.
           if (!$file) {
             $form_state->setErrorByName('views_send_attachment', $this->t('Error uploading file.'));
