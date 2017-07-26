@@ -3,7 +3,7 @@
 namespace Drupal\views_send\Plugin\views\field;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Element\Table;
+use Drupal\views\Plugin\views\style\Table;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Drupal\views\ResultRow;
 use Drupal\views\Plugin\views\field\UncacheableFieldHandlerTrait;
