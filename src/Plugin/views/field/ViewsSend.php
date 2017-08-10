@@ -61,9 +61,6 @@ class ViewsSend extends FieldPluginBase {
           '#return_value' => 1,
         ];
       }
-
-      // Replace the form submit button label.
-      $form['actions']['submit']['#value'] = $this->t('Apply to selected items');
     }
     else {
       // Hide the normal output from the view.
